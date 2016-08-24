@@ -1,5 +1,6 @@
 package servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import service.ChatService;
 import service.CoreService;
 import utils.PrintWriterHelp;
 import utils.SignUtil;
@@ -18,6 +20,22 @@ import utils.SignUtil;
  */
 @WebServlet("/CoreServlet")
 public class CoreServlet extends HttpServlet {
+	
+	/**
+	 * 如果在web.xml中给Servlet配置了load-on-startup元素，web应用程序启东市就会加载该Servlet并调用它的init()方法
+	 * 创建索引
+	 */
+	@Override
+	public void init() throws ServletException {
+		// TODO Auto-generated method stub
+		super.init();
+		File indexDir = new File(ChatService.getIndexDir());
+		//如果索引目录不存在则创建索引
+		if (!indexDir.exists()){
+			ChatService.createIndex();
+		}
+	}
+
 	private static final long serialVersionUID = 1L;
        
     /**

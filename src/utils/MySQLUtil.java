@@ -19,10 +19,8 @@ public class MySQLUtil {
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(url, username, password);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return connection;
@@ -33,7 +31,6 @@ public class MySQLUtil {
 			try {
 				rs.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -41,7 +38,6 @@ public class MySQLUtil {
 			try {
 				ps.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -49,16 +45,38 @@ public class MySQLUtil {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 	
+	/*
+	 * 数据库中插入初始数据
+	 */
+	public static void main(String[] arg0){
+		MySQLUtil mySQLUtil = new MySQLUtil();
+		Connection connection = null;
+		PreparedStatement ps = null;
+		connection = mySQLUtil.getConnection();
+		String[] sqls = {
+				"insert into joke(joke_content) values('再想想吧...')"
+		};
+		try {
+			for (String sql : sqls){
+				ps = connection.prepareStatement(sql);
+				ps.execute();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("success");
+	}
+	
 	//获取问答知识表中的所有记录
 	public static List<Knowledge> findAllKnowledge(){
 		List<Knowledge> knowledgeList = new ArrayList<Knowledge>();
-		String sql = "select $ from knowledge";
+		String sql = "select * from knowledge";
 		MySQLUtil mySQLUtil = new MySQLUtil();
 		Connection connection = null;
 		PreparedStatement ps = null;
@@ -76,7 +94,6 @@ public class MySQLUtil {
 				knowledgeList.add(knowledge);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally{
 			mySQLUtil.releaseResources(connection, ps, rs);
@@ -102,7 +119,6 @@ public class MySQLUtil {
 				chatCategory = rs.getInt("chat_category");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally{
 			mySQLUtil.releaseResources(connection, ps, rs);
@@ -128,7 +144,6 @@ public class MySQLUtil {
 				knowledgeAnswer = rs.getString("answer");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally{
 			mySQLUtil.releaseResources(connection, ps, rs);
@@ -153,7 +168,6 @@ public class MySQLUtil {
 				jokeContent = rs.getString("joke_content");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally{
 			mySQLUtil.releaseResources(connection, ps, rs);
@@ -163,7 +177,7 @@ public class MySQLUtil {
 	
 	//保存聊天记录
 	public static void saveChatLog(String openId, String createTime, String reqMsg, String respMsg, int chatCategory){
-		String sql = "insert into chat_log(open_id,create_time,req_msg,resp_msg,chat_category) valuees(?,?,?,?,?)";
+		String sql = "insert into chat_log(open_id,create_time,req_msg,resp_msg,chat_category) values(?,?,?,?,?)";
 		
 		MySQLUtil mySQLUtil = new MySQLUtil();
 		Connection connection = null;
@@ -179,7 +193,6 @@ public class MySQLUtil {
 			ps.setInt(5, chatCategory);
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally{
 			mySQLUtil.releaseResources(connection, ps, rs);

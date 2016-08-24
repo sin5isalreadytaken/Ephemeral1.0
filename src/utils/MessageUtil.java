@@ -45,6 +45,12 @@ public class MessageUtil {
 	public static final String RESP_MESSAGE_TYPE_MUSIC = "music";
 	public static final String RESP_MESSAGE_TYPE_NEWS = "news";
 	
+	public static final String[] DEFAULT_ANSWERS = {
+		"默认答案1",
+		"默认答案2"
+	};//TODO 添加更多默认答案
+	public static final String DEFAULT_RESP_ANSWER = "默认回复答案";//TODO 即为关注欢迎语
+	
 	
 	@SuppressWarnings("unchecked")
 	public static Map<String, String> parseXml(HttpServletRequest request) throws IOException, DocumentException{
